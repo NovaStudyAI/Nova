@@ -12,6 +12,7 @@ export default function App() {
   const [checking, setChecking] = useState(true)
   const [page, setPage] = useState('dashboard')
   const [selectedNote, setSelectedNote] = useState(null)
+  const [notes, setNotes] = useState([]);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -34,8 +35,8 @@ export default function App() {
 
   const nav = (p) => setPage(p)
 
-  if (page === 'upload') return <Upload user={user} nav={nav} />
-  if (page === 'notes') return <Notes user={user} nav={nav} selectedNote={selectedNote} setSelectedNote={setSelectedNote} />
+  if (page === 'upload') return <Upload user={user} nav={setPage} setNotes={setNotes} />
+  if (page === 'notes') return <Notes user={user} nav={setPage} notes={notes} setNotes={setNotes} />
   if (page === 'studyplan') return <StudyPlan user={user} nav={nav} />
   if (page === 'profile') return <Profile user={user} nav={nav} />
   return <Dashboard user={user} nav={nav} setSelectedNote={setSelectedNote} />

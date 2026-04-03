@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import Navbar from './Navbar'
 
-export default function Upload({ user, nav }) {
+export default function Upload({ user, nav, setNotes }) {
   const [dragging, setDragging] = useState(false)
   const [file, setFile] = useState(null)
   const [youtubeUrl, setYoutubeUrl] = useState('')
@@ -22,13 +22,36 @@ export default function Upload({ user, nav }) {
     if (tab === 'file' && !file) return
     if (tab === 'youtube' && !youtubeUrl) return
     if (!subject) return alert('Please enter the subject name!')
+    
     setUploading(true)
-    for (let i = 0; i <= 100; i += 10) {
-      await new Promise(r => setTimeout(r, 200))
-      setProgress(i)
+    setProgress(10) // Start progress
+
+    try {
+      // 1. Call your Vercel Backend API
+      const response = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          url: youtubeUrl,
+          subject: subject,
+          type: tab
+        })
+      })
+
+      if (!response.ok) throw new Error('AI failed to respond')
+
+      const newNote = await response.json()
+
+      setNotes(prev => [newNote, ...prev])
+      
+      setProgress(100)
+      setDone(true)
+    } catch (error) {
+      console.error(error)
+      alert('Error: Could not reach the AI Brain. Make sure your API is set up!')
+    } finally {
+      setUploading(false)
     }
-    setUploading(false)
-    setDone(true)
   }
 
   const inputStyle = { width:'100%', padding:'13px 16px', background:'rgba(18,18,31,0.8)', border:'1px solid rgba(191,90,242,0.15)', borderRadius:'10px', color:'#f0eeff', fontSize:'14px', outline:'none', boxSizing:'border-box', fontFamily:'sans-serif' }
