@@ -1,53 +1,24 @@
 import { useState } from 'react'
 import Navbar from './Navbar'
 
-const mockNotes = [
-  {
-    id:1, title:'Calculus — Derivatives & Integrals', subject:'Mathematics', date:'Today', pages:4,
-    summary:'This lecture covers the fundamentals of differential and integral calculus, including the power rule, chain rule, and basic integration techniques.',
-    content:`## Key Concepts\n\n### Derivatives\nA derivative measures the rate of change of a function. The power rule states that d/dx(xⁿ) = nxⁿ⁻¹.\n\n### Chain Rule\nUsed when differentiating composite functions: d/dx[f(g(x))] = f'(g(x)) · g'(x)\n\n### Integration\nIntegration is the reverse of differentiation. The integral of xⁿ is xⁿ⁺¹/(n+1) + C.\n\n### Key Formulas\n- Power Rule: d/dx(xⁿ) = nxⁿ⁻¹\n- Product Rule: d/dx(uv) = u'v + uv'\n- Quotient Rule: d/dx(u/v) = (u'v - uv')/v²`,
-    flashcards:[
-      { q:'What is the power rule for derivatives?', a:"d/dx(xⁿ) = nxⁿ⁻¹" },
-      { q:'What is the chain rule?',                 a:'d/dx[f(g(x))] = f\'(g(x)) · g\'(x)' },
-      { q:'What is integration the reverse of?',     a:'Differentiation' },
-      { q:'What is the integral of xⁿ?',             a:'xⁿ⁺¹/(n+1) + C' },
-    ]
-  },
-  {
-    id:2, title:"Newton's Laws of Motion", subject:'Physics', date:'Yesterday', pages:3,
-    summary:"Covers Newton's three laws of motion, including inertia, F=ma, and action-reaction pairs, with real-world examples.",
-    content:`## Newton's Three Laws\n\n### First Law (Inertia)\nAn object at rest stays at rest, and an object in motion stays in motion unless acted upon by an external force.\n\n### Second Law (F=ma)\nForce equals mass times acceleration. F = ma\n\n### Third Law (Action-Reaction)\nFor every action, there is an equal and opposite reaction.\n\n### Key Formulas\n- F = ma\n- Weight = mg (g = 9.8 m/s²)\n- Net force = sum of all forces`,
-    flashcards:[
-      { q:"State Newton's First Law",          a:'An object stays at rest or in motion unless acted upon by an external force' },
-      { q:"What is Newton's Second Law?",      a:'F = ma (Force = mass × acceleration)' },
-      { q:"State Newton's Third Law",          a:'For every action there is an equal and opposite reaction' },
-      { q:'What is the formula for weight?',   a:'Weight = mg, where g = 9.8 m/s²' },
-    ]
-  },
-  {
-    id:3, title:'World War II — Key Events', subject:'History', date:'2 days ago', pages:5,
-    summary:'Overview of major World War II events including causes, key battles, turning points, and the eventual Allied victory in 1945.',
-    content:`## World War II Overview\n\n### Causes\n- Rise of fascism in Europe\n- German invasion of Poland (1939)\n- Treaty of Versailles aftermath\n\n### Key Events\n- 1939: Germany invades Poland; WWII begins\n- 1941: Pearl Harbor attack; USA enters the war\n- 1944: D-Day — Allied invasion of Normandy\n- 1945: Germany surrenders (May); Japan surrenders (September)\n\n### Major Turning Points\n- Battle of Stalingrad (1942-43)\n- Battle of Midway (1942)\n- D-Day Normandy Invasion (1944)`,
-    flashcards:[
-      { q:'When did WWII begin?',                     a:'September 1, 1939, when Germany invaded Poland' },
-      { q:'What event brought the USA into WWII?',    a:'The Japanese attack on Pearl Harbor, December 7, 1941' },
-      { q:'What was D-Day?',                          a:'The Allied invasion of Normandy, France on June 6, 1944' },
-      { q:'When did WWII end?',                       a:'1945 — Germany surrendered in May, Japan in September' },
-    ]
-  },
-]
+const [notes, setNotes] =
+useState([]);
+   
 
 export default function Notes({ user, nav, selectedNote, setSelectedNote }) {
   const [view, setView] = useState(selectedNote ? 'detail' : 'list')
   const [note, setNote] = useState(selectedNote || mockNotes[0])
   const [noteView, setNoteView] = useState('notes')
+  const [notes, setNotes] =
+  useState([]);
+   
   const [cardIdx, setCardIdx] = useState(0)
   const [flipped, setFlipped] = useState(false)
   const [search, setSearch] = useState('')
 
   const openNote = (n) => { setNote(n); setView('detail'); setNoteView('notes'); setCardIdx(0); setFlipped(false) }
-
-  const filtered = mockNotes.filter(n =>
+  
+  const filtered = notes.filter(n =>
     n.title.toLowerCase().includes(search.toLowerCase()) ||
     n.subject.toLowerCase().includes(search.toLowerCase())
   )
@@ -127,7 +98,7 @@ export default function Notes({ user, nav, selectedNote, setSelectedNote }) {
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'24px' }}>
           <div>
             <h1 style={{ fontSize:'28px', fontWeight:'800', marginBottom:'6px' }}>My Notes 📝</h1>
-            <p style={{ color:'#7a7a9a', fontSize:'14px' }}>{mockNotes.length} notes generated · Click any note to read</p>
+            <p style={{ color:'#7a7a9a', fontSize:'14px' }}>{notes.length} notes generated · Click any note to read</p>
           </div>
           <button onClick={()=>nav('upload')} style={{ padding:'12px 20px', background:'linear-gradient(135deg,#bf5af2,#7c3aed)', color:'#fff', border:'none', borderRadius:'10px', fontSize:'13px', fontWeight:'700', cursor:'pointer', letterSpacing:'1px' }}>
             + Upload Lecture
