@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     const response = await result.response;
     const text = response.text();
     
-    // This part cleans the AI text and turns it into a real object
+    
     const cleanText = text.replace(/```json|```/g, "");
     const data = JSON.parse(cleanText);
 
