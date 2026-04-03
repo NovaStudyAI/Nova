@@ -14,7 +14,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: 'Video URL is required' });
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
     
     const prompt = `Generate a study title, a 3-sentence, summary, and 3 flashcards for this video: ${videoUrl}. Return as JSON with keys: title, summary, flashcards (array of {q, a}).`;
 
