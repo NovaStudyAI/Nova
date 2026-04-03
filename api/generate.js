@@ -1,4 +1,4 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
@@ -9,21 +9,31 @@ export default async function handler(req, res) {
 
   try {
     const { videoUrl, subject } = req.body;
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    const prompt = `Generate detailed, study notes and 5 flashcards for a student based on this YouTube video: ${videoUrl}. The subject is ${subject}. Return the response as a JSON object with these keys: title, subject, date, pages, summary, content, and flashcards (an array of q and a objects).`;
+    if (!videoUrl) {
+      return res.status(400).json({ message: 'Video URL is required' });
+    }
+
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    
+    const prompt = `Generate a study title, a 3-sentence, summary, and 3 flashcards for this video: ${videoUrl}. Return as JSON with keys: title, summary, flashcards (array of {q, a}).`;
 
     const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    const text = result.response.text();
     
-    
+  
     const cleanText = text.replace(/```json|```/g, "");
     const data = JSON.parse(cleanText);
 
-    res.status(200).json(data);
+    res.status(200).json({
+      ...data,
+      id: Date.now(),
+      subject: subject || "General",
+      date: new Date().toLocaleDateString()
+    });
+
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "AI is sleeping, try again!", error: error.message });
+    console.error("AI Error:", error);
+    res.status(500).json({ message: error.message });
   }
 }
