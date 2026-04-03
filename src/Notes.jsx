@@ -11,7 +11,7 @@ export default function Notes({ user, nav, notes = [], selectedNote }) { // SAFE
 
   const openNote = (note) => { setNote(note); setView('detail'); setNoteView('notes'); setCardIdx(0); setFlipped(false) }
   
-  // SAFETY CHECK 2: Only filter if notes exists
+  
   const filtered = (notes || []).filter(n =>
     (n.title || '').toLowerCase().includes(search.toLowerCase()) ||
     (n.subject || '').toLowerCase().includes(search.toLowerCase())
