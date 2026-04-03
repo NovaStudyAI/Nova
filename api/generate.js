@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     const { videoUrl, subject } = req.body;
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    const prompt = Generate detailed study notes and 5 flashcards for a student based on this YouTube video: ${videoUrl}. The subject is ${subject}. Return the response as a JSON object with these keys: title, subject, date, pages, summary, content, and flashcards (an array of q and a objects).;
+    const prompt = `Generate detailed, study notes and 5 flashcards for a student based on this YouTube video: ${videoUrl}. The subject is ${subject}. Return the response as a JSON object with these keys: title, subject, date, pages, summary, content, and flashcards (an array of q and a objects).`;
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
