@@ -1,16 +1,13 @@
 import { useState } from 'react'
 import Navbar from './Navbar'
-
-const [notes, setNotes] =
-useState([]);
    
 
 export default function Notes({ user, nav, selectedNote, setSelectedNote }) {
   const [view, setView] = useState(selectedNote ? 'detail' : 'list')
-  const [note, setNote] = useState(selectedNote || mockNotes[0])
+ 
   const [noteView, setNoteView] = useState('notes')
-  const [notes, setNotes] =
-  useState([]);
+  const [notes, setNotes] = useState([]);
+  const [note, setNote] = useState(selectedNote || null)
    
   const [cardIdx, setCardIdx] = useState(0)
   const [flipped, setFlipped] = useState(false)
