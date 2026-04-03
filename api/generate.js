@@ -31,7 +31,7 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error("Gemini Error:", error);
-    // Return the actual error to your alert box so we can see it
+    
     res.status(500).json({ message: error.message });
   }
 }
