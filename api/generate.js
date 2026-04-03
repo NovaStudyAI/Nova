@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     const { videoUrl, subject } = req.body;
 
   
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-8b" });
     
     const prompt = 'Generate a study title, a 3-sentence summary, and 3 flashcards for this video: ${videoUrl}. Return strictly as JSON with keys: title, summary, flashcards (array of {q, a}).';
 
