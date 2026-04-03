@@ -24,10 +24,10 @@ export default function Upload({ user, nav, setNotes }) {
     if (!subject) return alert('Please enter the subject name!')
     
     setUploading(true)
-    setProgress(10) // Start progress
+    setProgress(10) 
 
     try {
-      // 1. Call your Vercel Backend API
+      
       const response = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
