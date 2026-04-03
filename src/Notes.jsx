@@ -9,7 +9,7 @@ export default function Notes({ user, nav, notes = [], selectedNote }) { // SAFE
   const [flipped, setFlipped] = useState(false)
   const [search, setSearch] = useState('')
 
-  const openNote = 👎 => { setNote(n); setView('detail'); setNoteView('notes'); setCardIdx(0); setFlipped(false) }
+  const openNote = (note) => { setNote(note); setView('detail'); setNoteView('notes'); setCardIdx(0); setFlipped(false) }
   
   // SAFETY CHECK 2: Only filter if notes exists
   const filtered = (notes || []).filter(n =>
